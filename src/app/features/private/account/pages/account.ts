@@ -1,66 +1,78 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Subject, takeUntil } from 'rxjs';
+import { Toast } from '../../../../shared/components/toast';
 import { SharedModule } from '../../../../shared/shared.module';
 import { UserService } from '../../../../core/services/user.service.ts';
 import { AccountService } from '../service/account.service';
-
 import { UserModel } from '../../../../core/models/user/user.model';
-import { UpdateUserModel } from '../../../../core/models/user/update-user.model';
-import { ChangePasswordDto } from '../../../../core/models/user/change-password.model';
-
 @Component({
   selector: 'app-account',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, SharedModule],
   templateUrl: './account.html',
-  styleUrl: './account.scss',
+  styleUrl: './account.scss'
 })
-export class Account implements OnInit {
-
+export class Account implements OnInit, OnDestroy {
   user: UserModel | null = null;
   profileForm!: FormGroup;
   passwordForm!: FormGroup;
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private toast: Toast
   ) {}
 
   ngOnInit(): void {
-    this.profileForm = this.fb.nonNullable.group({
-      firstName: ['', Validators.required],
+    this.profileForm = this.fb.group({
+      firstName: [''],
       middleInitial: [''],
-      lastName: ['', Validators.required],
+      lastName: [''],
       email: [{ value: '', disabled: true }]
     });
 
-    this.passwordForm = this.fb.nonNullable.group({
-      currentPassword: ['', Validators.required],
-      newPassword: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
+    this.passwordForm = this.fb.group({
+      currentPassword: [''],
+      newPassword: [''],
+      confirmPassword: ['']
     });
 
-    this.userService.loadUser().subscribe(user => {
-      this.user = user;
-      if (user) {
-        this.profileForm.patchValue(user);
-      }
-    });
+    this.userService.loadUser()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(user => {
+        this.user = user;
+        if (user) this.profileForm.patchValue(user);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   updateProfile(): void {
     if (!this.user || this.profileForm.invalid) return;
 
-    const model: UpdateUserModel = this.profileForm.getRawValue();
-    this.accountService.updateUser( model).subscribe();
+    this.accountService.updateUser(this.profileForm.getRawValue())
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.toast.success('Success', 'Profile successfully updated');
+      });
   }
 
   changePassword(): void {
     if (this.passwordForm.invalid) return;
 
-    const dto: ChangePasswordDto = this.passwordForm.getRawValue();
-    this.accountService.changePassword(dto).subscribe();
+    this.accountService.changePassword(this.passwordForm.getRawValue())
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.passwordForm.reset();
+        this.toast.success('Success', 'Password successfully changed');
+      });
   }
 }
