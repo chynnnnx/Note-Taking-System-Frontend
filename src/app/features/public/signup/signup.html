@@ -1,0 +1,76 @@
+<div class="signup-container">
+  <div class="signup-card">
+    <h2>Create your account</h2>
+    <p class="subtitle">Start organizing your notes today</p>
+
+    <div *ngIf="message" class="error-message">
+      {{ message }}
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSignup()" class="signup-form">
+      <div class="form-field">
+        <label for="firstname">First Name</label>
+        <input 
+          pInputText 
+          id="firstname"
+          formControlName="firstname" 
+          placeholder="Juan"
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="lastname">Last Name</label>
+        <input 
+          pInputText 
+          id="lastname"
+          formControlName="lastname" 
+          placeholder="Dela Cruz"
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="middleinitial">Middle Initial</label>
+        <input 
+          pInputText 
+          id="middleinitial"
+          formControlName="middleinitial" 
+          placeholder="A"
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="email">Email address</label>
+        <input 
+          pInputText 
+          id="email"
+          type="email"
+          formControlName="email" 
+          placeholder="you@example.com"
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="password">Password</label>
+        <p-password 
+          formControlName="password" 
+          placeholder="Create a strong password"
+          [feedback]="false"
+          [toggleMask]="true"
+        />
+      </div>
+
+      <button 
+        pButton 
+        type="submit" 
+        [disabled]="!registerForm.valid"
+      >
+        Create account
+      </button>
+    </form>
+
+    <p class="signup-footer">
+      Already have an account? 
+      <a routerLink="/login">Sign in</a>
+    </p>
+  </div>
+</div>

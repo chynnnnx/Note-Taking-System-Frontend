@@ -1,0 +1,73 @@
+<ng-container *ngIf="notes$ | async as notes">
+
+  <div class="note-header">
+    <div class="header-content">
+      <button 
+        pButton 
+        icon="pi pi-arrow-left" 
+        class="p-button-text"
+        (click)="goBack()">
+      </button>
+      <div>
+        <h1>Pinned Notes</h1>
+        <p class="subtitle">{{ notes.length }} pinned note(s)</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-grid" *ngIf="notes.length > 0">
+    <div class="note-card" *ngFor="let note of notes">
+      <div class="card-header">
+        <h3>{{ note.title }}</h3>
+        <button
+          class="pin-btn pinned"
+          (click)="togglePin(note)">
+          <i class="pi pi-bookmark-fill"></i>
+        </button>
+      </div>
+
+      <div class="card-content">
+        <p class="note-content">{{ note.content || 'No content' }}</p>
+        <span class="note-date">
+          {{ note.updatedAt | date:'MMM d, y' }}
+        </span>
+      </div>
+
+      <div class="card-actions">
+        <button
+          pButton
+          icon="pi pi-pencil"
+          class="p-button-text p-button-sm"
+          (click)="editNote(note)">
+        </button>
+        <button
+          pButton
+          icon="pi pi-trash"
+          class="p-button-text p-button-sm p-button-danger"
+          (click)="deleteNote(note.id)">
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="notes.length === 0">
+    <i class="pi pi-bookmark"></i>
+    <h3>No pinned notes</h3>
+    <p>Pin notes to see them here</p>
+    <button
+      pButton
+      label="Go to All Notes"
+      icon="pi pi-arrow-left"
+      (click)="goBack()">
+    </button>
+  </div>
+
+</ng-container>
+
+<app-note-dialog
+  [visible]="showDialog"
+  [note]="selectedNote"
+  [categories]="(categories$ | async) ?? []"
+  (save)="saveNote($event)"
+  (close)="closeDialog()">
+</app-note-dialog>

@@ -1,0 +1,26 @@
+<p-dialog
+  [(visible)]="visible"
+  [header]="category ? 'Edit Category' : 'New Category'"
+  [modal]="true"
+  [style]="{ width: '450px' }"
+  [draggable]="false"
+  (onHide)="close.emit()">
+
+  <div class="dialog-content">
+    <label>Category Name</label>
+    <input
+      pInputText
+      [(ngModel)]="categoryName"
+      class="w-full" />
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button pButton label="Cancel" text (click)="close.emit()"></button>
+    <button
+      pButton
+      [label]="category ? 'Update' : 'Create'"
+      (click)="onSave()"
+      [disabled]="!categoryName.trim()">
+    </button>
+  </ng-template>
+</p-dialog>

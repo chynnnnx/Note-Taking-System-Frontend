@@ -1,0 +1,123 @@
+ @use '../../../../../../styles/theme' as *;
+
+.note-header {
+  @include flex-between;
+  margin-bottom: $spacing-md;
+  padding-bottom: $spacing-sm;
+  border-bottom: 1px solid $border;
+
+  .header-content {
+    @include flex-center;
+    gap: $spacing-sm;
+
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 700;
+      color: $text-primary;
+    }
+
+    .subtitle {
+      margin: 0.25rem 0 0;
+      color: $text-secondary;
+      font-size: 0.875rem;
+    }
+  }
+}
+
+.note-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: $spacing-md;
+}
+
+.note-card {
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  transition: all $transition-fast;
+
+  &:hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+}
+
+.card-header {
+  @include flex-between;
+  align-items: start;
+  margin-bottom: $spacing-sm;
+
+  h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: $text-primary;
+    flex: 1;
+  }
+}
+
+.pin-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: $text-secondary;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $text-primary;
+  }
+
+  &.pinned {
+    color: $accent;
+  }
+
+  i {
+    font-size: 1.25rem;
+  }
+}
+
+.card-content {
+  margin-bottom: $spacing-sm;
+
+  .note-content {
+    color: $text-primary;
+    margin: 0 0 0.75rem;
+    line-height: 1.5;
+  }
+
+  .note-date {
+    font-size: 0.75rem;
+    color: $text-secondary;
+  }
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.5rem;
+  padding-top: $spacing-sm;
+  border-top: 1px solid $border;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: $text-secondary;
+
+  i {
+    font-size: 4rem;
+    color: $border;
+    margin-bottom: $spacing-sm;
+  }
+
+  h3 {
+    margin: 0 0 0.5rem;
+    color: $text-primary;
+  }
+
+  p {
+    margin: 0 0 $spacing-md;
+  }
+}

@@ -1,0 +1,201 @@
+// Desktop Sidebar
+ @use '../../../../styles/theme' as *;
+
+.app-sidebar {
+  width: 250px;
+  background: $surface;
+  border-right: 1px solid $border;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+
+  .sidebar-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid $border;
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      i {
+        font-size: 1.5rem;
+        color: $accent;
+      }
+
+      span {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: $text-primary;
+      }
+    }
+  }
+
+  .sidebar-footer {
+    padding: 0.75rem;
+    border-top: 1px solid $border;
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      color: $text-secondary;
+      font-size: 0.8125rem;
+      padding: 0.5rem 0.875rem;
+      margin-bottom: 0.5rem;
+
+      i {
+        font-size: 1rem;
+      }
+    }
+
+    .logout-btn {
+      width: 100%;
+      background: transparent;
+      color: $text-secondary;
+      border: 1px solid $border;
+      border-radius: 6px;
+      padding: 0.5rem;
+      font-size: 0.8125rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+
+      i {
+        font-size: 1rem;
+      }
+
+      &:hover {
+        background: #fef2f2;
+        border-color: #fecaca;
+        color: #dc2626;
+      }
+    }
+  }
+}
+
+// Shared nav for both desktop and mobile
+.sidebar-nav {
+  flex: 1;
+  padding: 1rem 0.75rem;
+  overflow-y: auto;
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 0.875rem;
+    color: $text-secondary;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 6px;
+    margin-bottom: 0.125rem;
+    transition: all 0.2s;
+
+    i {
+      font-size: 1rem;
+      width: 18px;
+    }
+
+    &:hover {
+      background: rgba($accent, 0.06);
+      color: $text-primary;
+    }
+
+    &.active {
+      background: rgba($accent, 0.1);
+      color: $accent;
+    }
+  }
+}
+
+// Mobile Drawer
+::ng-deep .mobile-drawer {
+  width: 250px !important;
+  background: $surface;
+
+  .p-drawer-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid $border;
+    background: $surface;
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      i {
+        font-size: 1.5rem;
+        color: $accent;
+      }
+
+      span {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: $text-primary;
+      }
+    }
+  }
+
+  .p-drawer-content {
+    padding: 0;
+    background: $surface;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 140px);
+  }
+
+  .p-drawer-footer {
+    padding: 0.75rem;
+    border-top: 1px solid $border;
+    background: $surface;
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      color: $text-secondary;
+      font-size: 0.8125rem;
+      padding: 0.5rem 0.875rem;
+      margin-bottom: 0.5rem;
+
+      i {
+        font-size: 1rem;
+      }
+    }
+
+    .logout-btn {
+      width: 100%;
+      background: transparent;
+      color: $text-secondary;
+      border: 1px solid $border;
+      border-radius: 6px;
+      padding: 0.5rem;
+      font-size: 0.8125rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+
+      i {
+        font-size: 1rem;
+      }
+
+      &:hover {
+        background: #fef2f2;
+        border-color: #fecaca;
+        color: #dc2626;
+      }
+    }
+  }
+}

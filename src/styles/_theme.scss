@@ -1,0 +1,44 @@
+$primary: #0f172a;
+$accent: #0ea5e9;
+$background: #fafaf9;
+$surface: #ffffff;
+$border: #e5e7eb;
+$text-primary: #0f172a;
+$text-secondary: #64748b;
+ 
+$spacing-sm: 1rem;
+$spacing-md: 1.5rem;
+$radius-md: 8px;
+ 
+$transition-fast: 0.15s ease;
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: $spacing-sm $spacing-md;
+}
+
+@mixin link-hover {
+  transition: all $transition-fast;
+  
+  &:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  &.active {
+    color: white;
+    background: rgba($accent, 0.2);
+  }
+}

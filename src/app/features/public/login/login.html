@@ -1,0 +1,42 @@
+<div class="login-container">
+  <div class="login-card">
+    <h2>Sign in to your account</h2>
+    <p class="subtitle">Enter your credentials to access your notes</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form">
+      <div class="form-field">
+        <label for="email">Email address</label>
+        <input 
+          pInputText 
+          id="email"
+          type="email"
+          formControlName="email" 
+          placeholder="you@example.com"
+        />
+      </div>
+
+      <div class="form-field">
+        <label for="password">Password</label>
+        <p-password 
+          formControlName="password" 
+          placeholder="Enter your password"
+          [feedback]="false"
+          [toggleMask]="true"
+        />
+      </div>
+
+      <button 
+        pButton 
+        type="submit" 
+        [disabled]="!loginForm.valid"
+      >
+        Sign in
+      </button>
+    </form>
+
+    <p class="login-footer">
+      Don't have an account? 
+      <a routerLink="/signup">Create an account</a>
+    </p>
+  </div>
+</div>

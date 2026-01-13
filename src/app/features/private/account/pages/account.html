@@ -1,0 +1,35 @@
+<!-- Account Info -->
+<p-card header="Account Info">
+  <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+    <div class="flex flex-column gap-3">
+      <input pInputText formControlName="firstName" placeholder="First name" />
+      <input pInputText formControlName="middleInitial" placeholder="Middle initial" />
+      <input pInputText formControlName="lastName" placeholder="Last name" />
+      <input pInputText formControlName="email" readonly />
+
+      <button pButton type="submit" [disabled]="profileForm.invalid">
+        Update Info
+      </button>
+    </div>
+  </form>
+</p-card>
+
+<!-- Change Password -->
+<p-card header="Change Password" class="mt-3">
+  <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+    <div class="flex flex-column gap-3">
+      <p-password formControlName="currentPassword" placeholder="Current password" [feedback]="false" />
+      <p-password formControlName="newPassword" placeholder="New password" />
+      <p-password formControlName="confirmPassword" placeholder="Confirm password" [feedback]="false" />
+
+      <small class="p-error"
+        *ngIf="passwordForm.hasError('passwordMismatch') && passwordForm.get('confirmPassword')?.touched">
+        Passwords do not match
+      </small>
+
+      <button pButton type="submit" [disabled]="passwordForm.invalid">
+        Change Password
+      </button>
+    </div>
+  </form>
+</p-card>

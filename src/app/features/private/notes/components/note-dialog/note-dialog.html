@@ -1,0 +1,70 @@
+<p-dialog 
+  [header]="note ? 'Edit Note' : 'Create Note'"
+  [visible]="visible"
+  [modal]="true"
+  [style]="{width: '500px'}">
+  
+  <div class="dialog-content">
+    <div class="form-field">
+      <label for="note-title">Title *</label>
+      <input 
+        id="note-title"
+        type="text" 
+        pInputText 
+        [(ngModel)]="form.title"
+        placeholder="Enter note title"
+        class="w-full">
+    </div>
+
+    <div class="form-field">
+      <label for="note-content">Content</label>
+      <textarea 
+        id="note-content"
+        pTextarea
+        [(ngModel)]="form.content"
+        placeholder="Enter note content"
+        rows="6"
+        class="w-full">
+      </textarea>
+    </div>
+
+    <div class="form-field">
+      <label>Category</label>
+      <p-select
+        [(ngModel)]="form.categoryId"
+        [options]="categories"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Select category"
+        [showClear]="true"
+        class="w-full"
+        appendTo="body">
+      </p-select>
+    </div>
+
+    <div class="form-field checkbox-field">
+      <p-checkbox 
+        [(ngModel)]="form.isPinned"
+        [binary]="true"
+        inputId="note-isPinned">
+      </p-checkbox>
+      <label for="note-isPinned">Pin this note</label>
+    </div>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button 
+      pButton 
+      label="Cancel" 
+      class="p-button-text"
+      (click)="close.emit()">
+    </button>
+
+    <button 
+      pButton 
+      label="Save" 
+      (click)="onSave()"
+      [disabled]="!form.title.trim()">
+    </button>
+  </ng-template>
+</p-dialog>

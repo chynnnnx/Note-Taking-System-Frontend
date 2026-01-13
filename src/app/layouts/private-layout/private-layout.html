@@ -1,0 +1,87 @@
+<div class="layout-wrapper" *ngIf="isAuthorized">
+  <!-- Desktop: Regular sidebar -->
+  <aside class="app-sidebar" *ngIf="!isMobile && sidebarVisible">
+    <div class="sidebar-header">
+      <div class="logo">
+        <i class="pi pi-book"></i>
+        <span>NoteMaster</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a *ngFor="let item of menuItems" 
+         [routerLink]="item.routerLink" 
+         routerLinkActive="active" 
+         class="nav-item">
+        <i [class]="item.icon"></i>
+        <span>{{ item.label }}</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <i class="pi pi-user"></i>
+        <span>{{ email }}</span>
+      </div>
+      <button class="logout-btn" (click)="logout()">
+        <i class="pi pi-sign-out"></i>
+        <span>Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Mobile: Drawer -->
+  <p-drawer *ngIf="isMobile" [(visible)]="sidebarVisible" [modal]="true" position="left" styleClass="mobile-drawer">
+    <ng-template pTemplate="header">
+      <div class="logo">
+        <i class="pi pi-book"></i>
+        <span>NoteMaster</span>
+      </div>
+    </ng-template>
+
+    <nav class="sidebar-nav">
+      <a *ngFor="let item of menuItems" 
+         [routerLink]="item.routerLink" 
+         routerLinkActive="active" 
+         class="nav-item"
+         (click)="sidebarVisible = false">
+        <i [class]="item.icon"></i>
+        <span>{{ item.label }}</span>
+      </a>
+    </nav>
+
+    <ng-template pTemplate="footer">
+      <div class="user-info">
+        <i class="pi pi-user"></i>
+        <span>{{ email }}</span>
+      </div>
+      <button class="logout-btn" (click)="logout()">
+        <i class="pi pi-sign-out"></i>
+        <span>Logout</span>
+      </button>
+    </ng-template>
+  </p-drawer>
+
+  <div class="main-wrapper" [class.with-sidebar]="!isMobile && sidebarVisible">
+    <header class="app-header">
+      <button class="toggle-btn" (click)="toggleSidebar()">
+        <i class="pi pi-bars"></i>
+      </button>
+      <div class="header-right">
+        <button class="header-action">
+          <i class="pi pi-search"></i>
+        </button>
+        <button class="header-action">
+          <i class="pi pi-bell"></i>
+        </button>
+        <button class="header-action">
+          <i class="pi pi-cog"></i>
+        </button>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

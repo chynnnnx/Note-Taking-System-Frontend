@@ -1,0 +1,136 @@
+@use "sass:color";
+@use '../../../../styles/theme' as *;
+
+.signup-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $background;
+  padding: $spacing-sm;
+}
+
+.signup-card {
+  width: 100%;
+  max-width: 440px;
+  background: $surface;
+  border-radius: $radius-md;
+  padding: 2.5rem;
+  border: 1px solid $border;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    color: $text-primary;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  .subtitle {
+    color: $text-secondary;
+    font-size: 0.875rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .error-message {
+    padding: 0.75rem;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: $radius-md;
+    color: #dc2626;
+    font-size: 0.875rem;
+    margin-bottom: 1.25rem;
+    text-align: center;
+  }
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    label {
+      color: $text-primary;
+      font-weight: 500;
+      font-size: 0.875rem;
+    }
+
+    ::ng-deep .p-inputtext,
+    ::ng-deep .p-password-input {
+      width: 100%;
+      padding: 0.625rem 0.875rem;
+      border: 1px solid $border;
+      border-radius: $radius-md;
+      transition: all $transition-fast;
+      font-size: 0.875rem;
+
+      &:focus {
+        outline: none;
+        border-color: $accent;
+        box-shadow: 0 0 0 3px rgba($accent, 0.1);
+      }
+
+      &::placeholder {
+      color: color.adjust($text-secondary, $lightness: 10%);
+      }
+    }
+
+    ::ng-deep .p-password {
+      width: 100%;
+    }
+
+    .error-text {
+      color: #ef4444;
+      font-size: 0.75rem;
+      margin-top: -0.25rem;
+    }
+  }
+
+  button {
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    background: $primary;
+    color: white;
+    border: none;
+    border-radius: $radius-md;
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all $transition-fast;
+
+    &:hover:not(:disabled) {
+      background: color.adjust($primary, $lightness: 5%);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.signup-footer {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid $border;
+  text-align: center;
+  color: $text-secondary;
+  font-size: 0.875rem;
+
+  a {
+    color: $accent;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

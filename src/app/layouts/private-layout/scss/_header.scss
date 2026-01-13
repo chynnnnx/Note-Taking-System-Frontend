@@ -1,0 +1,52 @@
+ @use '../../../../styles/theme' as *;
+
+.app-header {
+  background: $surface;
+  border-bottom: 1px solid $border;
+  padding: 0 1.5rem;
+  height: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .toggle-btn {
+    background: none;
+    border: none;
+    color: $text-secondary;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background 0.2s;
+
+    i {
+      font-size: 1.125rem;
+    }
+
+    &:hover {
+      background: rgba($text-secondary, 0.06);
+    }
+  }
+
+  .header-right {
+    display: flex;
+    gap: 0.5rem;
+
+    .header-action {
+      background: none;
+      border: none;
+      color: $text-secondary;
+      padding: 0.5rem;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.2s;
+
+      i {
+        font-size: 1.125rem;
+      }
+
+      &:hover {
+        background: rgba($text-secondary, 0.06);
+      }
+    }
+  }
+}
