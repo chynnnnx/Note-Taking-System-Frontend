@@ -12,13 +12,13 @@
   }
 
   input {
-  width: 100%;              // ← You need this!
+  width: 100%;              
   padding: 0.75rem;
   font-size: 0.9375rem;
-  font-family: inherit;     // ← Important!
-  line-height: 1.5;         // ← For consistent height
-  color: $text-primary;     // ← Explicit color
-  background: $surface;     // ← Explicit background
+  font-family: inherit;     
+  line-height: 1.5;          
+  color: $text-primary;     
+  background: $surface;    
   border: 1px solid $border;
   border-radius: $radius-md;
   transition: all $transition-fast;

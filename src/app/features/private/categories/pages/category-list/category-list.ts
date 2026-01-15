@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
+
 import { CategoryService } from '../../services/category.service';
 import { CategoryModel } from '../../models/category-model';
 import { SharedModule } from '../../../../../shared/shared.module';
 import { CategoryDialogComponent } from '../../components/category-dialog/category-dialog';
 import { ConfirmService } from '../../../../../shared/services/confirm.service';
 import { Toast } from '../../../../../shared/components/toast';
-import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-category-list',
@@ -17,56 +18,52 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class CategoryList implements OnInit {
 
-  private categoriesSubject = new BehaviorSubject<CategoryModel[]>([]);
-  categories$: Observable<CategoryModel[]>= this.categoriesSubject.asObservable();
+ categories$!: Observable<CategoryModel[]>;
 
-  constructor( private categoryService: CategoryService, private confirmService: ConfirmService, private toast: Toast) {}
-  
-   showDialog = false;
-  selectedCategory: CategoryModel | null = null;
+  showDialog = signal(false);
+  selectedCategory = signal<CategoryModel | null>(null);
 
-    ngOnInit(): void {
-      this.loadCategories();
-    }
+  constructor( private categoryService: CategoryService, private confirmService: ConfirmService,
+    private toast: Toast) {}
 
-    loadCategories(): void {
-      this.categoryService.getCategories()
-        .subscribe(categories =>{this.categoriesSubject.next(categories);});
-    }
+  ngOnInit(): void {
+    this.loadCategories();
+  }
 
-    openDialog(category?: CategoryModel): void {
-      this.selectedCategory = category ??null;
-      this.showDialog = false;
-      this.showDialog = true;
-    }
+  loadCategories(): void {
+    this.categories$ = this.categoryService.getCategories();
+  }
 
-   
-    saveCategory(data: { name: string }): void {
-    const action$ = this.selectedCategory
-      ? this.categoryService.updateCategory(this.selectedCategory.id, data)
+  openDialog(category?: CategoryModel): void {
+    this.selectedCategory.set(category ?? null);
+    this.showDialog.set(true);
+  }
+
+  closeDialog(): void {
+    this.showDialog.set(false);
+  }
+
+  saveCategory(data: { name: string }): void {
+    const category = this.selectedCategory();
+
+    const action$ = category
+      ? this.categoryService.updateCategory(category.id, data)
       : this.categoryService.createCategory(data);
 
-    action$.subscribe(category => {
-      const categories = this.categoriesSubject.value;
-      const updatedCategories = this.selectedCategory
-        ? categories.map(c => c.id === category.id ? category : c)
-        : [category, ...categories];
-
-      this.categoriesSubject.next(updatedCategories);
-      this.toast.success(this.selectedCategory ? 'Category updated' : 'Category created');
-      this.showDialog = false;
+    action$.subscribe({
+      next: () => {
+        this.loadCategories();
+        this.toast.success(category ? 'Category updated' : 'Category created');
+        this.closeDialog();
+      },
+      error: () => this.toast.error('Something went wrong')
     });
   }
 
-    closeDialog() {
-      this.showDialog = false;
-    }
-
-
-    deleteCategory(id: string): void {
+  deleteCategory(id: string): void {
     this.confirmService.delete('Delete this category?', () => {
       this.categoryService.deleteCategory(id).subscribe(() => {
-        this.categoriesSubject.next(this.categoriesSubject.value.filter(c => c.id !== id));
+        this.loadCategories();
         this.toast.success('Category deleted');
       });
     });

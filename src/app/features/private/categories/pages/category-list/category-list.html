@@ -1,57 +1,44 @@
 <ng-container *ngIf="categories$ | async as categories">
   <div class="category-container">
+
     <div class="category-header">
       <div class="header-content">
         <h1>Categories</h1>
         <p class="subtitle">Organize your notes with categories</p>
       </div>
-
       <button
         pButton
         label="New Category"
         icon="pi pi-plus"
-        (click)="openDialog()"
-        class="create-btn">
+        (click)="openDialog()">
       </button>
     </div>
-
     <div class="category-grid" *ngIf="categories.length > 0">
       <div class="category-card" *ngFor="let category of categories">
         <div class="card-content">
           <h3>{{ category.name }}</h3>
-          <p class="category-date">
-            Created {{ category.createdAt | date:'MMM d, y' }}
-          </p>
+          <p>Created {{ category.createdAt | date:'MMM d, y' }}</p>
         </div>
 
         <div class="card-actions">
-          <button
-            pButton
-            icon="pi pi-pencil"
-            [text]="true"
-            (click)="openDialog(category)">
-          </button>
-
-          <button
-            pButton
-            icon="pi pi-trash"
-            [text]="true"
-            severity="danger"
-            (click)="deleteCategory(category.id)">
+          <button pButton icon="pi pi-pencil" text (click)="openDialog(category)"></button>
+          <button pButton icon="pi pi-trash" text severity="danger"
+                  (click)="deleteCategory(category.id)">
           </button>
         </div>
       </div>
     </div>
 
-    <div class="empty-state" *ngIf="categories.length === 0">
+    <div *ngIf="categories.length === 0">
       <h3>No categories yet</h3>
       <button pButton label="Create Category" (click)="openDialog()"></button>
     </div>
+
   </div>
 
   <app-category-dialog
-    [visible]="showDialog"
-    [category]="selectedCategory"
+    [visible]="showDialog()"
+    [category]="selectedCategory()"
     (save)="saveCategory($event)"
     (close)="closeDialog()">
   </app-category-dialog>
