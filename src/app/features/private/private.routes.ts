@@ -17,7 +17,7 @@ export const privateRoutes: Routes = [
       { path: 'note-list', component: NoteList, data: { archived: false } },
       { path: 'note-list/archived', component: NoteList, data: { archived: true } },
       { path: 'category-list', component: CategoryList },
-      { path: 'notes/pinned', component: PinnedNotes },
+      { path: 'note-list/pinned', component: PinnedNotes },
       {path: 'account', component: Account}
     ]
   }
