@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CategoryService } from '../../services/category.service';
 import { CategoryModel } from '../../models/category-model';
 import { SharedModule } from '../../../../../shared/shared.module';
@@ -50,19 +50,18 @@ export class CategoryList implements OnInit {
       ? this.categoryService.updateCategory(category.id, data)
       : this.categoryService.createCategory(data);
 
-    action$.subscribe({
+    action$.pipe(takeUntilDestroyed())
+    .subscribe({
       next: () => {
         this.loadCategories();
         this.toast.success(category ? 'Category updated' : 'Category created');
         this.closeDialog();
-      },
-      error: () => this.toast.error('Something went wrong')
-    });
+      }});
   }
 
   deleteCategory(id: string): void {
     this.confirmService.delete('Delete this category?', () => {
-      this.categoryService.deleteCategory(id).subscribe(() => {
+      this.categoryService.deleteCategory(id).pipe(takeUntilDestroyed()).subscribe(() => {
         this.loadCategories();
         this.toast.success('Category deleted');
       });
