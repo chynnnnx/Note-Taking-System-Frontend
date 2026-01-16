@@ -1,14 +1,15 @@
 <ng-container *ngIf="notes$ | async as notes">
   <div class="note-header">
     <div class="header-content">
-      <h1>{{ archivedMode ? 'Archived Notes' : 'My Notes' }}</h1>
+      <h1>{{ archivedMode() ? 'Archived Notes' : 'My Notes' }}</h1>
       <p class="subtitle">Create and organize your notes</p>
     </div>
+
     <div class="header-actions">
       <button
-        *ngIf="getPinnedCount(notes) > 0 && !archivedMode"
+        *ngIf="getPinnedCount(notes) > 0 && !archivedMode()"
         pButton
-        [label]="'Pinned (' + getPinnedCount(notes) + ')'"
+        [label]="'Pinned (' + getPinnedCount(notes) + ')' "
         icon="pi pi-bookmark-fill"
         severity="secondary"
         [outlined]="true"
@@ -16,10 +17,10 @@
       </button>
 
       <p-selectButton 
-        [options]="viewModes" 
-        [(ngModel)]="archivedMode"
-        (onChange)="onViewModeChange($event)"
-        optionLabel="label" 
+        [options]="viewModes"
+        [ngModel]="archivedMode()"
+        (onChange)="onViewModeChange($event.value)"
+        optionLabel="label"
         optionValue="value">
         <ng-template let-item>
           <i [class]="item.icon"></i>
@@ -28,7 +29,7 @@
       </p-selectButton>
 
       <button
-        *ngIf="!archivedMode"
+        *ngIf="!archivedMode()"
         pButton
         label="New Note"
         icon="pi pi-plus"
@@ -42,58 +43,56 @@
     <div class="note-card" *ngFor="let note of notes">
       <div class="card-header">
         <h3>{{ note.title }}</h3>
+
         <button
           class="pin-btn"
           [class.pinned]="note.isPinned"
-          (click)="togglePin(note)">
-          <i
-            class="pi"
-            [class.pi-bookmark-fill]="note.isPinned"
-            [class.pi-bookmark]="!note.isPinned">
-          </i>
+          (click)="toggleNoteAction(note, 'pin')">
+          <i class="pi"
+             [class.pi-bookmark-fill]="note.isPinned"
+             [class.pi-bookmark]="!note.isPinned"></i>
         </button>
       </div>
 
       <div class="card-content">
         <p class="note-content">{{ note.content || 'No content' }}</p>
-        <span class="note-date">
-          {{ note.updatedAt | date:'MMM d, y' }}
-        </span>
+        <span class="note-date">{{ note.updatedAt | date:'MMM d, y' }}</span>
       </div>
 
-     <div class="card-actions">
-  <button
-    *ngIf="!archivedMode"
-    pButton
-    icon="pi pi-pencil"
-    class="p-button-text p-button-sm"
-    (click)="openDialog(note)">
-  </button>
-   <button
-  pButton
-  icon="pi pi-archive"
-  class="p-button-text p-button-sm archive-action"
-  (click)="toggleArchive(note)">
-  Archive
-</button>
+      <div class="card-actions">
+        <button
+          *ngIf="!archivedMode()"
+          pButton
+          icon="pi pi-pencil"
+          class="p-button-text p-button-sm"
+          (click)="openDialog(note)">
+        </button>
 
-  <button
-    pButton
-    icon="pi pi-trash"
-    class="p-button-text p-button-sm p-button-danger"
-    (click)="deleteNote(note.id)">
-  </button>
- 
-</div>
+      
+    <button
+      pButton
+      icon="pi pi-archive"
+      class="p-button-text p-button-sm archive-action"
+      (click)="toggleNoteAction(note, 'archive')">
+      {{ note.isArchived ? 'Unarchive' : 'Archive' }}
+    </button>
+
+        <button
+          pButton
+          icon="pi pi-trash"
+          class="p-button-text p-button-sm p-button-danger"
+          (click)="deleteNote(note.id)">
+        </button>
+      </div>
     </div>
   </div>
 
   <div class="empty-state" *ngIf="notes.length === 0">
     <i class="pi pi-file-edit"></i>
-    <h3>{{ archivedMode ? 'No archived notes' : 'No notes yet' }}</h3>
-    <p>{{ archivedMode ? 'You have no archived notes' : 'Create your first note to get started' }}</p>
+    <h3>{{ archivedMode() ? 'No archived notes' : 'No notes yet' }}</h3>
+    <p>{{ archivedMode() ? 'You have no archived notes' : 'Create your first note to get started' }}</p>
     <button
-      *ngIf="!archivedMode"
+      *ngIf="!archivedMode()"
       pButton
       label="Create Note"
       icon="pi pi-plus"
@@ -103,8 +102,8 @@
 </ng-container>
 
 <app-note-dialog
-  [visible]="showDialog"
-  [note]="selectedNote"
+  [visible]="showDialog()"
+  [note]="selectedNote()"
   [categories]="(categories$ | async) ?? []"
   (save)="saveNote($event)"
   (close)="closeDialog()">
