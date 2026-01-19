@@ -5,14 +5,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CategoryService } from '../../services/category.service';
 import { CategoryModel } from '../../models/category-model';
 import { SharedModule } from '../../../../../shared/shared.module';
-import { CategoryDialogComponent } from '../../components/category-dialog/category-dialog';
+import { CategoryDialog } from '../../components/category-dialog/category-dialog';
 import { ConfirmService } from '../../../../../shared/services/confirm.service';
 import { Toast } from '../../../../../shared/components/toast';
 
 @Component({
   selector: 'app-category-list',
   standalone: true,
-  imports: [CommonModule, SharedModule, CategoryDialogComponent],
+  imports: [CommonModule, SharedModule, CategoryDialog],
   templateUrl: './category-list.html',
   styleUrls: ['./category-list.scss']
 })
@@ -32,6 +32,7 @@ export class CategoryList implements OnInit {
 
   loadCategories(): void {
     this.categories$ = this.categoryService.getCategories();
+    
   }
 
   openDialog(category?: CategoryModel): void {
@@ -50,7 +51,7 @@ export class CategoryList implements OnInit {
       ? this.categoryService.updateCategory(category.id, data)
       : this.categoryService.createCategory(data);
 
-    action$.pipe(takeUntilDestroyed())
+    action$
     .subscribe({
       next: () => {
         this.loadCategories();
@@ -61,7 +62,7 @@ export class CategoryList implements OnInit {
 
   deleteCategory(id: string): void {
     this.confirmService.delete('Delete this category?', () => {
-      this.categoryService.deleteCategory(id).pipe(takeUntilDestroyed()).subscribe(() => {
+      this.categoryService.deleteCategory(id).subscribe(() => {
         this.loadCategories();
         this.toast.success('Category deleted');
       });
