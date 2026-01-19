@@ -7,6 +7,7 @@ import { SharedModule } from '../../../../shared/shared.module';
 import { UserService } from '../../../../core/services/user.service.ts';
 import { AccountService } from '../service/account.service';
 import { UserModel } from '../../../../core/models/user/user.model';
+
 @Component({
   selector: 'app-account',
   standalone: true,
