@@ -71,8 +71,7 @@ export class NoteList {
       ? this.noteService.updateNote(note.id, form)
       : this.noteService.createNote(form);
 
-    action$.pipe(takeUntilDestroyed())
-    .subscribe(() => {
+    action$.subscribe(() => {
       this.reloadNotes();
       this.toast.success(note ? 'Note updated' : 'Note created');
       this.closeDialog();
@@ -81,7 +80,7 @@ export class NoteList {
 
   deleteNote(id: string) {
     this.confirm.delete('Delete this note?', () => {
-      this.noteService.deleteNote(id).pipe(takeUntilDestroyed()).subscribe(() => {
+      this.noteService.deleteNote(id).subscribe(() => {
         this.reloadNotes();
         this.toast.success('Note deleted');
       });
@@ -102,8 +101,7 @@ export class NoteList {
         : this.noteService.archiveNote(note.id);
     }
 
-    action$.pipe(takeUntilDestroyed())
-    .subscribe(() => {
+    action$.subscribe(() => {
       const message =
         action === 'pin'
           ? note.isPinned ? 'Note unpinned' : 'Note pinned'
