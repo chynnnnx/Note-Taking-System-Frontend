@@ -156,11 +156,11 @@
 }
 .archive-action {
   ::ng-deep .p-button-icon {
-    color: #64748b !important;
+    color: $text-secondary !important;
   }
   
   &:hover ::ng-deep .p-button-icon {
-    color: #0ea5e9 !important;
+    color: $accent !important;
   }
 }
 .empty-state {
