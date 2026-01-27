@@ -37,6 +37,7 @@ export class PrivateLayout implements OnInit {
 
   readonly menuItems: MenuItem[] = [
     { label: 'Dashboard', icon: 'pi pi-home', routerLink: '/dashboard' },
+   { label: 'Favorites', icon: 'pi pi-star', routerLink: '/favorites' },
     { label: 'My Notes', icon: 'pi pi-file-edit', routerLink: '/note-list' },
     { label: 'Categories', icon: 'pi pi-folder', routerLink: '/category-list' },
     { label: 'Account', icon: 'pi pi-user', routerLink: '/account' },
