@@ -4,5 +4,6 @@ export interface PageQueryParams {
     archived?: boolean;
   searchTerm?: string;
   isPinned?: boolean;
+  isFavorite?: boolean;
     [key: string]: any;
 }
