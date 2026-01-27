@@ -6,6 +6,7 @@ import { NoteList } from './notes/pages/note-list/note-list';
 import { CategoryList } from './categories/pages/category-list/category-list';
 import { PinnedNotes } from './notes/pages/pinned-notes/pinned-notes';
 import { Account } from './account/pages/account';
+import { Favorites } from './notes/pages/favorites/favorites';
 
 export const privateRoutes: Routes = [
   {
@@ -15,6 +16,8 @@ export const privateRoutes: Routes = [
     children: [
       { path: 'dashboard', component: Dashboard }, 
       { path: 'note-list', component: NoteList, data: { archived: false } },
+      { path: 'favorites', component: Favorites }, 
+
       { path: 'note-list/archived', component: NoteList, data: { archived: true } },
       { path: 'category-list', component: CategoryList },
       { path: 'note-list/pinned', component: PinnedNotes },
