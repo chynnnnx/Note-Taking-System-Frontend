@@ -32,6 +32,9 @@ export class NoteService {
   unarchiveNote(id:string): Observable<NoteModel>{
     return this.api.patch<NoteModel>(`${this.baseUrl}/${id}/unarchive`,{});
   }
+  favorite(id:string,isFavorite: boolean): Observable<NoteModel>{
+    return this.api.patch<NoteModel>(`${this.baseUrl}/${id}/favorite`, {isFavorite});
+  }
    
   deleteNote(id: string): Observable<void>{
     return this.api.delete<void>(`${this.baseUrl}/${id}`);
@@ -43,12 +46,14 @@ export class NoteService {
     archived,
     searchTerm,
     isPinned,
+    isFavorite,
   } = params;
 
   const query: any = { page, pageSize };
 
   if (archived !== undefined) query.IsArchived = archived;
   if (isPinned !== undefined) query.IsPinned = isPinned;
+  if(isFavorite != undefined) query.isFavorite = isFavorite;
   if (searchTerm) query.SearchTerm = searchTerm;
 
   return this.pagedService.getPaged<NoteModel>(this.baseUrl, query);
