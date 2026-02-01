@@ -5,6 +5,7 @@ export interface NoteModel{
     content: string;
     isPinned: boolean;
     isArchived: boolean;
+    isFavorite: boolean;
     createdAt: Date;
     updatedAt: Date;
     categoryId?: string | null;
