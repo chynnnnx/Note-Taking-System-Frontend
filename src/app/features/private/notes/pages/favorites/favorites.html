@@ -1,1 +1,72 @@
-<p>favorites works!</p>
+<ng-container *ngIf="pagedResult$ | async as result">
+  <div class="favorites-container">
+
+    <div class="favorites-header">
+      <div class="header-content">
+        <h1><i class="pi pi-star-fill"></i> Favorite Notes</h1>
+        <p class="subtitle">Your starred notes collection</p>
+      </div>
+    </div>
+
+    <div class="notes-grid" *ngIf="result.data.length > 0">
+      <div class="note-card" *ngFor="let note of result.data">
+        <div class="card-header">
+          <div class="pin-badge" *ngIf="note.isPinned">
+            <i class="pi pi-thumbtack"></i>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <h3>{{ note.title || 'Untitled' }}</h3>
+          <p class="note-text">{{ note.content }}</p>
+          <p class="note-date">{{ note.updatedAt | date:'MMM d, y' }}</p>
+        </div>
+
+        <div class="card-actions">
+          <button 
+            pButton 
+            icon="pi pi-thumbtack" 
+            text 
+            [class.active]="note.isPinned"
+            (click)="togglePin(note)"
+            pTooltip="Pin note"
+            tooltipPosition="top">
+          </button>
+          <button 
+            pButton 
+            icon="pi pi-star-fill" 
+            text 
+            class="favorite-active"
+            (click)="toggleFavorite(note)"
+            pTooltip="Remove from favorites"
+            tooltipPosition="top">
+          </button>
+          <button 
+            pButton 
+            icon="pi pi-inbox" 
+            text 
+            (click)="archiveNote(note)"
+            pTooltip="Archive"
+            tooltipPosition="top">
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="result.data.length === 0">
+      <i class="pi pi-star"></i>
+      <h3>No favorite notes yet</h3>
+      <p>Star your important notes to see them here</p>
+    </div>
+
+    <p-paginator
+      *ngIf="result.data.length > 0"
+      [rows]="pageSize()"
+      [totalRecords]="result.total"
+      [rowsPerPageOptions]="[12, 24, 36]"
+      (onPageChange)="onPageChange($event)"
+      class="favorites-paginator">
+    </p-paginator>
+
+  </div>
+</ng-container>
