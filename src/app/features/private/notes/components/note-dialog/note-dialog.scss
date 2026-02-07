@@ -73,4 +73,14 @@
       }
     }
   }
+  
+}
+:host ::ng-deep .p-dialog-footer {
+  .p-button:not(.p-button-text) {
+    background: $accent !important;
+    border-color: $accent !important;
+  }
+  .p-button.p-button-text {
+    color: $text-secondary !important;
+  }
 }

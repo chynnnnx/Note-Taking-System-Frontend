@@ -15,7 +15,14 @@
         [outlined]="true"
         (click)="goToPinnedNotes()">
       </button>
-
+<button
+  pButton
+  label="Favorites"
+  icon="pi pi-star-fill"
+  severity="warn"
+  [outlined]="true"
+  (click)="goToFavorites()">
+</button>
       <p-selectButton 
         [options]="viewModes"
         [ngModel]="archivedMode()"
@@ -68,7 +75,13 @@
           (click)="openDialog(note)">
         </button>
 
-      
+     <button
+    pButton
+    [icon]="note.isFavorite ? 'pi pi-star-fill' : 'pi pi-star'"
+    class="p-button-text p-button-sm"
+    [style.color]="note.isFavorite ? '#fbbf24' : ''"
+    (click)="toggleNoteAction(note, 'favorite')">
+  </button>
     <button
       pButton
       icon="pi pi-archive"

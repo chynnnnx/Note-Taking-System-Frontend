@@ -143,20 +143,54 @@
     }
   }
 
-  .card-actions {
-    display: flex;
-    gap: 0.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid $border;
+ .card-actions {
+  display: flex;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid $border;
 
-    button {
-      flex: 1;
+  button {
+    flex: 1;
+    &:not(.p-button-danger) {
+      ::ng-deep .p-button-label, 
+      ::ng-deep .p-button-icon {
+        color: $accent !important;
+        transition: color $transition-fast;
+      }
+
+      &:hover {
+        background: rgba($accent, 0.08) !important;
+        
+        ::ng-deep .p-button-icon {
+          color: color.adjust($accent, $lightness: -10%) !important;
+        }
+      }
+    }
+
+    &.p-button-danger {
+      ::ng-deep .p-button-icon {
+        color: #ef4444 !important;
+      }
+      &:hover {
+        background: rgba(#ef4444, 0.08) !important;
+      }
     }
   }
 }
+
+ ::ng-deep .p-button.create-btn {
+  background: $accent !important;
+  border-color: $accent !important;
+  color: white !important;
+
+  &:hover {
+    background: color.adjust($accent, $lightness: -5%) !important;
+    border-color: color.adjust($accent, $lightness: -5%) !important;
+  }
+}}
 .archive-action {
   ::ng-deep .p-button-icon {
-    color: $text-secondary !important;
+    color: $accent !important;
   }
   
   &:hover ::ng-deep .p-button-icon {

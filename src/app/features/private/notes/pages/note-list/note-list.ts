@@ -87,30 +87,34 @@ export class NoteList {
     });
   }
 
-  toggleNoteAction(
-    note: NoteModel,
-    action: 'pin' | 'archive'
-  ) {
-    let action$;
+toggleNoteAction(
+  note: NoteModel,
+  action: 'pin' | 'archive' | 'favorite'
+) {
+  let action$;
 
-    if (action === 'pin') {
-      action$ = this.noteService.togglePin(note.id, !note.isPinned);
-    } else {
-      action$ = note.isArchived
-        ? this.noteService.unarchiveNote(note.id)
-        : this.noteService.archiveNote(note.id);
-    }
-
-    action$.subscribe(() => {
-      const message =
-        action === 'pin'
-          ? note.isPinned ? 'Note unpinned' : 'Note pinned'
-          : note.isArchived ? 'Note unarchived' : 'Note archived';
-
-      this.toast.success(message);
-      this.reloadNotes();
-    });
+  if (action === 'pin') {
+    action$ = this.noteService.togglePin(note.id, !note.isPinned);
+  } else if (action === 'favorite') {
+    action$ = this.noteService.favorite(note.id, !note.isFavorite);
+  } else {
+    action$ = note.isArchived
+      ? this.noteService.unarchiveNote(note.id)
+      : this.noteService.archiveNote(note.id);
   }
+
+  action$.subscribe(() => {
+    const messages = {
+      pin: note.isPinned ? 'Note unpinned' : 'Note pinned',
+      archive: note.isArchived ? 'Note unarchived' : 'Note archived',
+      favorite: note.isFavorite ? 'Removed from favorites' : 'Added to favorites'
+    };
+
+    this.toast.success(messages[action]);
+    this.reloadNotes();
+  });
+}
+
 
  goToPinnedNotes(): void {
   this.router.navigate(['note-list/pinned'], { relativeTo: this.route.root });
@@ -131,4 +135,7 @@ export class NoteList {
   private reloadNotes() {
     this.notes$ = this.fetchNotes(this.archivedMode());
   }
+  goToFavorites(): void {
+  this.router.navigate(['/favorites']);
+}
 }
