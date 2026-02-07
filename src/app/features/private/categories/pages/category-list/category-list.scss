@@ -12,7 +12,7 @@
   align-items: flex-start;
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
- // border-bottom: 1px solid $border;
+  border-bottom: 1px solid $border;
 
   .header-content {
     h1 {
@@ -92,15 +92,29 @@
     }
   }
 
-  .card-actions {
-    display: flex;
-    gap: 0.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid $border;
+ .card-actions {
+  display: flex;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid $border;
 
-    button {
-      flex: 1;
+  button {
+    flex: 1;
+  }
+
+::ng-deep .p-button.p-button-text:not(.p-button-danger) {
+    color: $accent !important; 
+    
+    .p-button-icon {
+      color: $accent !important; 
     }
+
+    &:hover {
+      background: rgba($accent, 0.1) !important; 
+    }
+  }
+
+ 
   }
 }
 

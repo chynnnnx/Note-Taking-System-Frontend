@@ -10,7 +10,7 @@
         pButton
         label="New Category"
         icon="pi pi-plus"
-        (click)="openDialog()">
+        class = "create-btn" (click)="openDialog()">
       </button>
     </div>
     <div class="category-grid" *ngIf="categories.length > 0">

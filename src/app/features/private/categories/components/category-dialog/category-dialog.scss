@@ -1,4 +1,5 @@
- @use '../../../../../../styles/theme' as *;
+@use "sass:color";
+@use '../../../../../../styles/theme' as *;
 
 .dialog-content {
   padding: 1rem 0;
@@ -12,15 +13,48 @@
   }
 
   input {
-  width: 100%;              
-  padding: 0.75rem;
-  font-size: 0.9375rem;
-  font-family: inherit;     
-  line-height: 1.5;          
-  color: $text-primary;     
-  background: $surface;    
-  border: 1px solid $border;
-  border-radius: $radius-md;
-  transition: all $transition-fast;
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 0.9375rem;
+    font-family: inherit;
+    line-height: 1.5;
+    color: $text-primary;
+    background: $surface;
+    border: 1px solid $border;
+    border-radius: $radius-md;
+    transition: all $transition-fast;
+
+     &:focus {
+      outline: none;
+      border-color: $accent;
+      box-shadow: 0 0 0 2px rgba($accent, 0.2);
+    }
+  }
 }
+
+ :host ::ng-deep {
+  .p-dialog-footer {
+     .p-button.p-button-text {
+      color: $text-secondary;
+      &:hover {
+        background: rgba($text-secondary, 0.1);
+      }
+    }
+
+     .p-button:not(.p-button-text) {
+      background: $accent !important;
+      border: 1px solid $accent !important;
+
+      &:hover {
+        background: color.adjust($accent, $lightness: -5%) !important;
+        border-color: color.adjust($accent, $lightness: -5%) !important;
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        background: $text-secondary !important;
+        border-color: $text-secondary !important;
+      }
+    }
+  }
 }
