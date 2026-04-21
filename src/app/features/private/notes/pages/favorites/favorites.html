@@ -59,14 +59,19 @@
       <p>Star your important notes to see them here</p>
     </div>
 
-    <p-paginator
-      *ngIf="result.data.length > 0"
-      [rows]="pageSize()"
-      [totalRecords]="result.total"
-      [rowsPerPageOptions]="[12, 24, 36]"
-      (onPageChange)="onPageChange($event)"
-      class="favorites-paginator">
-    </p-paginator>
+    <div class="pagination-wrapper" *ngIf="result.data.length > 0">
+      <div class="pagination-info">
+        <span>Showing {{ getStartRecord(result) }}-{{ getEndRecord(result) }} of {{ result.total }}</span>
+      </div>
+      
+      <p-paginator
+        [rows]="pageSize()"
+        [totalRecords]="result.total"
+        [rowsPerPageOptions]="[12, 24, 36]"
+        (onPageChange)="onPageChange($event)"
+        [showCurrentPageReport]="false">
+      </p-paginator>
+    </div>
 
   </div>
 </ng-container>

@@ -16,9 +16,7 @@ import { PaginatorState } from 'primeng/paginator';
   styleUrl: './favorites.scss',
 })
 export class Favorites implements OnInit {
-
   pagedResult$!: Observable<PagedResult<NoteModel>>;
-
   currentPage = signal(0);
   pageSize = signal(12);
 
@@ -29,13 +27,7 @@ export class Favorites implements OnInit {
   }
 
   loadFavorites(): void {
-    const params: PageQueryParams = {
-      page: this.currentPage() + 1,
-      pageSize: this.pageSize(),
-      isFavorite: true,
-      archived: false
-    };
-
+    const params = this.buildQueryParams();
     this.pagedResult$ = this.noteService.getNotes(params);
   }
 
@@ -49,25 +41,36 @@ export class Favorites implements OnInit {
 
   toggleFavorite(note: NoteModel): void {
     this.noteService.favorite(note.id, !note.isFavorite).subscribe({
-      next: () => {
-        this.loadFavorites();
-      }
+      next: () => this.loadFavorites()
     });
   }
 
   togglePin(note: NoteModel): void {
     this.noteService.togglePin(note.id, !note.isPinned).subscribe({
-      next: () => {
-        this.loadFavorites();
-      }
+      next: () => this.loadFavorites()
     });
   }
 
   archiveNote(note: NoteModel): void {
     this.noteService.archiveNote(note.id).subscribe({
-      next: () => {
-        this.loadFavorites();
-      }
+      next: () => this.loadFavorites()
     });
+  }
+
+  getStartRecord(result: PagedResult<NoteModel>): number {
+    return result.data.length === 0 ? 0 : this.currentPage() * this.pageSize() + 1;
+  }
+
+  getEndRecord(result: PagedResult<NoteModel>): number {
+    return Math.min((this.currentPage() + 1) * this.pageSize(), result.total);
+  }
+
+  private buildQueryParams(): PageQueryParams {
+    return {
+      page: this.currentPage() + 1,
+      pageSize: this.pageSize(),
+      isFavorite: true,
+      archived: false
+    };
   }
 }

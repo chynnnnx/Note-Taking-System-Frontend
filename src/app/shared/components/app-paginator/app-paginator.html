@@ -1,0 +1,14 @@
+<div class="pagination-wrapper" *ngIf="totalRecords() > 0">
+  <div class="pagination-info">
+    <span>Showing {{ startRecord() }}-{{ endRecord() }} of {{ totalRecords() }}</span>
+  </div>
+  
+  <p-paginator
+    [first]="first()" 
+    [rows]="rows()"
+    [totalRecords]="totalRecords()"
+    [rowsPerPageOptions]="rowsPerPageOptions()"
+    (onPageChange)="onPageChange($event)"
+    [showCurrentPageReport]="false">
+  </p-paginator>
+</div>

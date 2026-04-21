@@ -1,12 +1,118 @@
-<div>
+<div class="dashboard" *ngIf="dashboard$ | async as dash; else loading">
 
-  <div style="display: flex; gap: 1rem;">
-    <button pButton label="test" icon="pi pi-plus" style="flex: 1;"></button>
-    <button pButton label="yest1" icon="pi pi-folder-plus" [outlined]="true" style="flex: 1;color: maroon;"></button>
+  <div class="stats-strip">
+    <div class="stat-card">
+      <i class="pi pi-file-edit"></i>
+      <div>
+        <span class="stat-value">{{ dash.stats.totalNotes }}</span>
+        <span class="stat-label">Total Notes</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <i class="pi pi-star-fill favorite"></i>
+      <div>
+        <span class="stat-value">{{ dash.stats.totalFavorites }}</span>
+        <span class="stat-label">Favorites</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <i class="pi pi-bookmark-fill pinned"></i>
+      <div>
+        <span class="stat-value">{{ dash.stats.totalPinned }}</span>
+        <span class="stat-label">Pinned</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <i class="pi pi-folder"></i>
+      <div>
+        <span class="stat-value">{{ dash.stats.totalCategories }}</span>
+        <span class="stat-label">Categories</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-body">
+
+    <div class="section quick-capture">
+      <h2 class="section-title">
+        <i class="pi pi-bolt"></i> Quick Capture
+      </h2>
+      <div class="capture-card">
+        <input
+          pInputText
+          [(ngModel)]="quickTitle"
+          placeholder="Note title..."
+          class="capture-title"
+          (keydown.enter)="quickCapture()"
+        />
+        <textarea
+          pTextarea
+          [(ngModel)]="quickContent"
+          placeholder="What's on your mind?"
+          rows="3"
+          class="capture-content"
+        ></textarea>
+        <div class="capture-actions">
+          <p-button
+            label="Save Note"
+            icon="pi pi-check"
+            [loading]="isCapturing"
+            [disabled]="!quickTitle.trim()"
+            (onClick)="quickCapture()"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-right">
+
+      <div class="section" *ngIf="dash.pinnedNotes.length">
+        <h2 class="section-title">
+          <i class="pi pi-bookmark-fill"></i> Pinned
+        </h2>
+        <div class="mini-note-list">
+          <div
+            class="mini-note-card pinned-card"
+            *ngFor="let note of dash.pinnedNotes"
+            (click)="goToNote(note)"
+          >
+            <span class="mini-note-title">{{ note.title }}</span>
+            <span class="mini-note-date">{{ note.createdAt | date:'MMM d' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-heading">
+          <h2 class="section-title">
+            <i class="pi pi-clock"></i> Recent Notes
+          </h2>
+          <p-button label="View All" [text]="true" (onClick)="goToNotes()" />
+        </div>
+        <div class="mini-note-list" *ngIf="dash.recentNotes.length; else emptyRecent">
+          <div
+            class="mini-note-card"
+            *ngFor="let note of dash.recentNotes"
+            (click)="goToNote(note)"
+          >
+            <div class="mini-note-meta">
+              <span class="mini-note-title">{{ note.title }}</span>
+              <span class="mini-note-preview">{{ note.content }}</span>
+            </div>
+            <span class="mini-note-date">{{ note.createdAt | date:'MMM d' }}</span>
+          </div>
+        </div>
+        <ng-template #emptyRecent>
+          <p class="empty-hint">No notes yet. Use Quick Capture above!</p>
+        </ng-template>
+      </div>
+
+    </div>
   </div>
 </div>
 
-<div class="btn-wrapper display: flex; gap: 1rem;">
-  <button pButton label="test2" icon="pi pi-plus" class="button:flex"></button>
-  <button pButton label="test2" icon="pi pi-folder-plus" [outlined]="true" class="button:flex button:maroon"></button>
-</div>
+<ng-template #loading>
+  <div class="loading-state">
+    <p-progressSpinner strokeWidth="3" />
+  </div>
+</ng-template>
