@@ -1,1 +1,44 @@
-<p>about works!</p>
+<section class="about-page">
+  <div class="hero-card">
+    <div class="hero-copy">
+      <span class="eyebrow">About NoteMaster</span>
+      <h1>One place to capture, sort, and revisit the notes you actually need.</h1>
+      <p>
+        NoteMaster is a focused notes workspace built around clean organization, quick retrieval,
+        and a calm interface that stays out of the way.
+      </p>
+
+      <div class="hero-actions">
+        <a routerLink="/signup" class="primary-action">Create account</a>
+        <a routerLink="/login" class="secondary-action">Sign in</a>
+      </div>
+    </div>
+
+    <div class="hero-panel">
+      <div class="metric-card">
+        <span class="metric-label">Built for</span>
+        <strong>Daily note capture</strong>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Keeps visible</span>
+        <strong>Pinned and favorite notes</strong>
+      </div>
+      <div class="metric-card">
+        <span class="metric-label">Designed with</span>
+        <strong>Clean, high-contrast system colors</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature-grid">
+    @for (card of featureCards; track card.title) {
+      <article class="feature-card">
+        <div class="feature-icon">
+          <i class="{{ card.icon }}"></i>
+        </div>
+        <h2>{{ card.title }}</h2>
+        <p>{{ card.description }}</p>
+      </article>
+    }
+  </div>
+</section>

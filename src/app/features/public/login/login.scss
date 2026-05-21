@@ -2,12 +2,12 @@
 @use '../../../../styles/theme' as *;
 
 .login-container {
-  min-height: 100vh;
+  min-height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   background: $background;
-  padding: $spacing-sm;
+  padding: 3rem $spacing-sm;
 }
 
 .login-card {
